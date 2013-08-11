@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<aiml version="1.0.1" xmlns="http://alicebot.org/2001/AIML-1.0.1"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://alicebot.org/2001/AIML-1.0.1 http://aitools.org/aiml/schema/AIML.xsd">
+	  <category>
+		  <pattern>YES</pattern>
+		  <that>_ DO YOU LIKE ME</that>
+		  <template>nice to hear that.</template>
+	  </category>
+      <category>
+	      <pattern>HI</pattern>
+	      <template>Hi. Do you like me?</template>
+      </category>
+      <category>
+	      <pattern>SAY *</pattern>
+	      <template><star /></template>
+      </category>
+      <category>
+      	<pattern>说 *</pattern>
+      	<template><srai>SAY <star /></srai></template>
+      </category>
+	  <category>
+		  <pattern>SHOW GLOBALS</pattern>
+		  <template>
+			  <system>
+				  print globals()['createcategory']
+			  </system>
+		  </template>
+	  </category>
+	  <category>
+		 <pattern>Q: * A: *</pattern>
+		 <template>
+			 <system xml:space="preserve">
+				 addtobrain(k, 'client.aiml', createcategory(u'<star index="1" />', u'<star index="2" />'))
+			 </system>
+			 记录这这样的问答，问题: <star index="1" /> 回答: <star index="2" />
+		 </template>
+	  </category>
+	  <topic name='学 习'>
+		  <category>
+			  <pattern>*</pattern>
+			  <template>
+				  <system xml:space="preserve">
+					__import__('re')
+					qa = re.split(r'[QA]:', u'<star />'.strip())
+					if len(qa) == 3:
+						addtobrain(k, 'client.aiml', createcategory(qa[1].strip(), qa[2].strip()))
+				  </system>
+			  </template>
+		  </category>
+	  </topic>
+      <category>
+      	<pattern>加 载 系 统 标 签</pattern>
+      	<template>
+      		<system xml:space="preserve">
+			#	def createcategory(pattern, template):
+			#		xmldoc = minidom.Document()
+			#		root = xmldoc.appendChild(xmldoc.createElement('aiml'))
+			#		cg = xmldoc.createElement('category')
+			#		pt = xmldoc.createElement('pattern')
+			#		pt.appendChild(xmldoc.createTextNode(LangSupport.LangSupport().input(Utils.toUpperCase(pattern))))
+			#		tp = xmldoc.createElement('template')
+			#		tp.appendChild(xmldoc.createTextNode(template))
+			#		cg.appendChild(pt)
+			#		cg.appendChild(tp)
+			#		root.appendChild(cg)
+			#		return xmldoc
+
+			#	def addcategory(xmldoc, cgdom):
+			#		root = xmldoc.getElementsByTagName('aiml')[0]
+			#		cg = cgdom.getElementsByTagName('category')[0]
+			#		root.appendChild(cg)
+			#		return xmldoc
+
+			#	def addtobrain(kernel, filename, xmldoc):
+			#		if not os.path.exists(filename):
+			#			file = codecs.open(filename, 'w', encoding='utf-8')
+			#			xmldoc.writexml(file, encoding='utf-8')
+			#			file.close()
+			#		else:
+			#			xmldom = minidom.parse(filename)
+			#			addcategory(xmldom, xmldoc)	
+			#			file = codecs.open(filename, 'w', encoding='utf-8')
+			#			xmldom.writexml(file, encoding='utf-8')
+			#			file.close()
+			#		kernel.learn(filename)
+
+			#	def test_systemresponse(kernel):
+			#		kernel.systemresponse = "success"
+
+			#	globals()['createcategory'] = createcategory
+			#	globals()['addtobrain'] = addtobrain
+			#	globals()['addcategory'] = addcategory
+			#	globals()['test_systemresponse'] = test_systemresponse
+			</system>
+      	</template>
+      </category>
+	  <category>
+		  <pattern>*</pattern>
+		  <template>
+			  <random>
+				  <li>这 个 回 答 起 来 比 较 困 难 哦。</li>
+				  <li>让 我 们 换 个 话 题 吧。</li>
+				  <li>嗯，不 好 说 哦</li>
+				  <li>这 个 我 不 知 道 怎 么 答 哦。</li>
+			  </random>
+		  </template>
+	  </category>
+	  <category>
+		  <pattern>BAD ANSWER</pattern>
+		  <template>怎么样回答好呢？</template>
+	  </category>
+	  <category>
+		  <pattern>NOT * GOOD ANSWER</pattern>
+		  <template><srai>BAD ANSWER</srai></template> 
+	  </category> 
+	  <category>
+		  <pattern>* BAD ANSWER *</pattern>
+		  <template><srai>NOT <star /> GOOD ANSWER</srai></template>
+	  </category>
+	  <category>
+		  <pattern>* 不 * 好 回 答 * </pattern>
+		  <template><srai>BAD ANSWER</srai></template>
+	  </category>
+	  <category>
+		  <pattern>不 * 好 回 答 * </pattern>
+		  <template><srai>BAD ANSWER</srai></template>
+	  </category>
+	  <category>
+		  <pattern>* 不 * 好 回 答</pattern>
+		  <template><srai>BAD ANSWER</srai></template>
+	  </category>   
+	  <category>
+		  <pattern>* 回 答 * 不 *</pattern>
+		  <template><srai>BAD ANSWER</srai></template>
+	  </category>   
+	  <category>
+		  <pattern>回 答 * 不 *</pattern>
+		  <template><srai>BAD ANSWER</srai></template>
+	  </category>   
+	  <category>
+		  <pattern>* 回 答 不 *</pattern>
+		  <template><srai>BAD ANSWER</srai></template>
+	  </category>   
+	  <category>
+		  <pattern>回 答 不 *</pattern>
+		  <template><srai>BAD ANSWER</srai></template>
+	  </category>   
+	  <category>
+		  <pattern>不 * 好 回 答</pattern>
+		  <template><srai>BAD ANSWER</srai></template>
+	  </category>   
+	  <category>
+		  <pattern>* NOT * GOOG ANSWER *</pattern>
+		  <template><srai> <star /> NOT <star /> GOOD ANSWER</srai></template>
+	  </category>
+	  <category>
+		  <pattern>*</pattern>
+		  <that>怎 么 样 回 答 好 呢</that>
+		  <template>
+			  <system xml:space="preserve">>
+				  addtobrain(k, 'client.aiml', createcategory(u'<input index="3" />', u'<input index="1" />'))
+		      </system>
+			 好，你可以再试一试 
+	      </template>
+	  </category>
+      <category>
+	      <pattern>TOPIC *</pattern>
+	      <template>I've now reset the topic to <set name="topic"><star/></set>.</template>
+      </category>
+      <category>
+	      <pattern>WHAT IS OUR TOPIC NOW</pattern>
+	      <template>topic: <get name="topic" /></template>
+      </category>
+	  <category>
+		  <pattern>RESET TOPIC</pattern>
+		  <template><set name="topic"></set></template>
+	  </category>
+	  <category>
+		  <pattern>TEST SYSTEM RESPONSE</pattern>
+		  <template>
+			  <system xml:space="preserve">
+				  test_systemresponse(k)
+			  </system>
+		  </template>
+	  </category>   
+	  <category>
+		  <pattern>今 天 是 几 号</pattern>
+		  <template>
+			  今 天 是
+			  <system xml:space="preserve">
+				  calr = cal.Cal()
+				  k.systemresponse=calr.chineseformat(calr.today())
+			  </system>
+		  </template>
+	  </category>   
+      <category>
+		  <pattern> 明 天 是 几 号</pattern>
+		  <template>
+			  明 天 是
+			  <system xml:space="preserve">
+				  calr = cal.Cal()
+				  k.systemresponse=calr.chineseformat(calr.tomorrow())
+			  </system>
+		  </template>
+	  </category>   
+	  <category>
+		  <pattern>昨 天 是 几 号</pattern>
+		  <template>
+			  昨 天 是
+			  <system xml:space="preserve">
+				  calr = cal.Cal()
+				  k.systemresponse=calr.chineseformat(calr.yesterday())
+			  </system>
+		  </template>
+	  </category>   
+      <category>
+		  <pattern>今 天 是 周 几</pattern>
+		  <template>
+			  今 天 是
+			  <system xml:space="preserve">
+				  calr = cal.Cal()
+				  k.systemresponse=calr.weekday()
+			  </system>
+		  </template>
+	  </category>   
+	  <category>
+		  <pattern>这 周 * 是 几 号</pattern>
+		  <template>
+			  <system xml:space="preserve">
+				  calr = cal.Cal()
+				  k.systemresponse=calr.chineseformat(calr.dateofweekday(calr.chineseweek2num(u"<star />")))
+			  </system>
+		  </template>
+	  </category>   
+	  <category>
+		  <pattern>* 这 周 * 是 几 号</pattern>
+		  <template>
+			  <system xml:space="preserve">
+				  calr = cal.Cal()
+				  k.systemresponse=calr.chineseformat(calr.dateofweekday(calr.chineseweek2num(u"<star />")))
+			  </system>
+		  </template>
+	  </category>
+	  <category>
+		  <pattern>上 周 * 是 几 号</pattern>
+		  <template>
+			  <system xml:space="preserve">
+				  calr = cal.Cal()
+				  k.systemresponse=calr.chineseformat(calr.dateofweekday(calr.chineseweek2num(u"<star />"), calr.before(7)))
+			  </system>
+		  </template>
+	  </category>
+	  <category>
+		  <pattern>* 上 周 * 是 几 号</pattern>
+		  <template>
+			  <system xml:space="preserve">
+				  calr = cal.Cal()
+				  k.systemresponse=calr.chineseformat(calr.dateofweekday(calr.chineseweek2num(u"<star />"), calr.before(7)))
+			  </system>
+		  </template>
+	  </category>   
+	  <category>
+		  <pattern>下 周 * 是 几 号</pattern>
+		  <template>
+			  <system xml:space="preserve">
+				  calr = cal.Cal()
+				  k.systemresponse=calr.chineseformat(calr.dateofweekday(calr.chineseweek2num(u"<star />"), calr.after(7)))
+			  </system>
+		  </template>
+	  </category>
+	  <category>
+		  <pattern>* 下 周 * 是 几 号</pattern>
+		  <template>
+			  <system xml:space="preserve">
+				  calr = cal.Cal()
+				  k.systemresponse=calr.chineseformat(calr.dateofweekday(calr.chineseweek2num(u"<star />"), calr.after(7)))
+			  </system>
+		  </template>
+	  </category>   
+
+	  <category>
+		  <pattern>* 月 * 日 是 周 几</pattern>
+		  <template>
+			  <system xml:space="preserve">
+				  calr = cal.Cal()
+				  k.systemresponse = calr.weekday(tod=datetime.date(datetime.date.today().year, <star index="1" />, <star index="2" />))
+			  </system>
+		  </template>
+	  </category>
+	  
+	  <category>
+		  <pattern>* 月 * 号 是 周 几</pattern>
+		  <template>
+			  <system xml:space="preserve">
+				  calr = cal.Cal()
+				  k.systemresponse = calr.weekday(tod=datetime.date(datetime.date.today().year, <star index="1" />, <star index="2" />))
+			  </system>
+		  </template>
+	  </category>     
+	  
+</aiml>
