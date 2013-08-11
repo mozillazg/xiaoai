@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import os
-import aiml
+import xiaoai
 import sys
-from aiml.Kernel import k
+from xiaoai.Kernel import k
 
 loadfiles = ['aiml_set/main.xml']
 
